@@ -3,80 +3,277 @@
 <body style="margin:0; padding: 0;">
   <a href = "http://google.com">goooo</a>
 <script>
-  enchant(); // initialize
-    var game = new Core(320, 320);
-    game.preload('chara1.png', 'icon0.png'); // preload image
-    game.fps = 20;
+   var container = document.getElementById('wrd');
+    
+var things = ['welcome to KCI', 'Are you ready for the challenge! he-he-he!'];
+var t = -1;
+var thing = '';
+var message = container.innerHTML;
+var mode = 'write';
+var delay = 1000;
 
+function updateText(txt) {
+    container.innerHTML = txt;
+}
+
+function tick() {
+
+    if(container.innerHTML.length == 0) {
+        t++;
+        thing = things[t];
+        message = '';
+        mode = 'write';
+    }
+
+    switch(mode) {
+        case 'write' :
+            message += thing.slice(0, 1);
+            thing = thing.substr(1);
+
+            updateText(message);
+
+            if(thing.length === 0 && t === (things.length - 1)) {
+                window.clearTimeout(timeout);
+                return;
+            }
+
+            if(thing.length == 0){
+                mode = 'delete';
+                delay = 1500;
+            } else {
+                delay = 32 + Math.round(Math.random() * 40);
+            }
+
+            break;
+
+        case 'delete' :
+            message = message.slice(0, -1);
+            updateText(message);
+
+            if(message.length == 0)
+            {
+                mode = 'write';
+                delay = 1500;
+            } else {
+                delay = 32 + Math.round(Math.random() * 100);
+            }
+            break;
+    }
+  
+    timeout = window.setTimeout(tick, delay);
+}
+
+var timeout = window.setTimeout(tick, delay);
+  </script>
+<script>
+    enchant(); // initialize
+    var game = new Core(320, 320);
+    game.preload("https://raw.githubusercontent.com/eddicke/quiz/master/player.png",'chara1.png', 'icon0.png','http://enchantjs.com/wordpress/wp-content/uploads/2014/06/map0.png','https://raw.githubusercontent.com/eddicke/quiz/master/8.png'); // preload image
+    game.fps = 20;
     game.onload = function(){
+      //the map
+      var map = new Map(26, 26);
+map.image = game.assets['http://enchantjs.com/wordpress/wp-content/uploads/2014/06/map0.png'];
+var baseMap = [
+  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0],
+  [  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0,  0],
+  [  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  0,  0,  0,  4,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  5,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+];
+map.loadData(baseMap);
+      
+ 
+game.rootScene.addChild(map);
+map.collisionData =  [
+  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0],
+  [  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0,  0],
+  [  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  0,  0,  0,  4,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  5,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0],
+  [  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+  [  0,  2,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+];
+              
         // make new class for player
         var Player = enchant.Class.create(enchant.Sprite, {
-            initialize: function(){
-                enchant.Sprite.call(this, 32, 32);
-                this.image = game.assets['chara1.png'];
-                this.frame = 5;                   // set image data
+            initialize: function(x,y){
+                enchant.Sprite.call(this, 95, 125);
+                this.image = game.assets["https://raw.githubusercontent.com/eddicke/quiz/master/player.png"];
+              this.x = x;
+              this.tx = this.x
+              this.y = y
+              this.ty = this.y
+                this.frame = [1, 2, 3, 4, 5, 6]; 
+              this.scaleY = 0.4
+               this.scaleX = 0.4
+              // set image data
                 game.rootScene.addChild(this);     // add to canvas
-            }
+            },
+          onenterframe: function() {
+            slow = 30; 
+            this.x += (this.tx - this.x) / slow;
+        this.y += (this.ty - this.y) / slow;
+    }
         });
-
         // make new class for apple
         var Apple = enchant.Class.create(enchant.Sprite, {
-            initialize: function(){
+            initialize: function(x,y){
                 enchant.Sprite.call(this, 16, 16);
                 this.image = game.assets['icon0.png']; // set image
-                this.moveTo(16, player.y + 8);       // move to the position
+                this.moveTo(player.x + 2, player.y + 8);       // move to the position
                 this.tl.moveBy(320, 0, 30);        // set movement
-                this.frame = 15;                   // set image data
-                game.rootScene.addChild(this);     // add to canvas
+                this.frame = 58;                   // set image data
+              this.x = x;
+              this.tx = this.x
+              this.y = y
+              this.ty = this.y
+              
+              game.rootScene.addChild(this);     // add to canvas
             }
         });
-
+ // make new class for intelligent fruit
+        var Carrot = enchant.Class.create(enchant.Sprite, {
+            initialize: function(x,y){
+                enchant.Sprite.call(this, 32, 32);
+                this.image = game.assets['https://raw.githubusercontent.com/eddicke/quiz/master/8.png']; // set image
+                this.frame = [1,2,3,4,5,6,7];                  // set image data
+              this.x = x;
+              this.tx = this.x
+              this.y = y
+              this.ty = this.y
+              //
+              game.rootScene.addChild(this);     // add to canvas
+            },
+             onenterframe: function() {
+        slow = 30; 
+            this.x += (this.tx - this.x) / slow;
+        this.y += (this.ty - this.y) / slow;
+    }
+        });
         // make new class for enemy
         var Enemy = enchant.Class.create(enchant.Sprite, {
             initialize: function(){
                 enchant.Sprite.call(this, 32, 32);
-                this.image = game.assets['chara1.png']; // set image
+                this.image = game.assets['https://raw.githubusercontent.com/eddicke/quiz/master/8.png']; // set image
                 this.moveTo(320, Math.floor(Math.random() * 320)); // set position
-                this.scaleX = -1;
+                this.scaleX = 1;
+              this.frame = [6, 6, 7, 7, 4, 4, 4, 4, 4, 4, 4]
                 this.tl.moveBy(-360, 0, 160);      // set movement
                 game.rootScene.addChild(this);     // canvas
             }
         });
-
-        var player = new Player();
-
+        var player = new Player(20, 29);
         // generate enemy every 60 frames
         game.rootScene.tl.then(function() {
             var enemy = new Enemy();
+      enemy.tl.moveBy(player.x - 360, player.y, 370);      
+          //enemy.y = player.y
         }).delay(30).loop();                    // wait 60 frames and loop it!
-
         // add event listener (called when click/touch started)
         game.rootScene.on('touchstart', function(evt){
-            player.y = evt.localY;    // set position to touch-y position
-            var apple = new Apple();
+            player.ty = evt.localY;    // set position to touch-y position
+          player.tx = evt.localX;
+          var apple = new Apple(player.x + 40, player.y + 60);
         });
-
+      //
+var badguy = new Carrot(400, 200)
+var badguy2 = new Carrot(200, 200);
+var score = 0;
+        var label = new enchant.Label();
+        label.font = "12px 'Arial'";
+      game.rootScene.addChild(label);
+      //scoring :)
+setInterval(function(){
+badguy.tx = player.x;
+badguy.ty = player.y;
+  badguy2.tx = player.x;
+badguy2.ty = player.y;
+  if(badguy.x < player.x + 0.5 || badguy2.x < player.x + 0.5  ){
+    badguy.scaleX = -1;
+    badguy2.scaleX = -1;
+  }
+  if(badguy.x > player.x + 0.5 || badguy2.x > player.x + 0.5  ){
+    badguy.scaleX = 1;
+     badguy2.scaleX = 1;
+  }
+  //boundaries
+  if (map.hitTest(player.x, player.y)) {
+                    player.tx = player.x * 0.7;
+    player.ty = player.y * 0.7;
+  label.text = "score:"+score +"  stay off!";
+  }
+  
+  // *****************javascript**********
+  //intelligent fruit is bad
+          if(badguy.intersect(badguy2)){
+           
+          badguy.x = badguy.x + 0.5;
+           badguy.y = badguy.y + 0.5;
+            
+          }
+  var i = 30;
+  if(badguy.within(player, i) || badguy2.within(player, i)){
+ var wrd = document.getElementById('wrd')
+ wrd.innerHTML = "ha-ha you're caught"
+ wrd.style.backgroundColor = 'red';
+    document.body.appendChild(wrd);
+  }    
+  else{
+  player.opacity = 1;
+  }
+})
         // add event listener (called when click/touch moved)
-        game.rootScene.on('touchmove', function(evt){
-          player.x = evt.localX; 
-          player.y = evt.localY;    // set position to touch-y position
+        game.rootScene.on('touchend', function(evt){
+            player.ty = evt.localY;  
+          player.tx = evt.localX;
+          ///controlling the players rotation
+          if(evt.localX < player.x){
+            player.scaleX = -0.4;
+          }
+           if(evt.localX > player.x){
+            player.scaleX = 0.4;
+          }
+         
         });
-        
-        var score = 0;
-        
-        game.rootScene.on('touchstart', function(){
-            var hits = Player.intersect(Enemy);
+     
+      //javascripting :)
+        game.rootScene.on('enterframe', function(){
+            var hits = Apple.intersect(Enemy);
             for(var i = 0, len = hits.length; i < len; i++){
-              
+                game.rootScene.removeChild(hits[i][0]);
                 game.rootScene.removeChild(hits[i][1]);
-                
+              score++;
+          label.text = "score:"+score;
+         if(score === 10){
+         alert("don't play yourself")
+         }
             }
+          
         });
-        
       
     };
-
-    game.start(); // start your game!!
+    game.start(); // start your game!
 </script>
 </body>
 </html>
