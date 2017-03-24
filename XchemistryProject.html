@@ -206,20 +206,20 @@ enemy2.ty = apple.y + 2;
  var resultY = y.sup();             
  var formulae =  document.getElementById('formulae')
  formulae.innerHTML = resultX+score+resultY+56  
- score -= 0.1;
+ score -= 1;
             }
         });
       var timer = document.getElementById('time')
       var currentT = 30
-      document.getElementById('task').innerHTML = "Bond with the red atom to form C40H56: time-: "+currentT;
+      document.getElementById('task').innerHTML = "Bond with the red atom to form C24H56: time-: "+currentT;
    var counter = setInterval(function(){
       currentT--
-	   document.getElementById('task').innerHTML = "Bond with the red atom to form C40H56: time-: "+currentT;
+	   document.getElementById('task').innerHTML = "Bond with the red atom to form C24H56: time-: "+currentT;
         timer.innerHTML = currentT + 's';
         if(currentT === 0){
           game.stop()
         clearInterval(counter)  
-          if(score < 40){
+          if(score < 24){
      document.getElementById('task').innerHTML = 'sorry😯'
         }
         else{
