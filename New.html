@@ -4,7 +4,7 @@
   <div id = "wrd"> hello students </div>
   <div id = "formulae"> FM </div>
   <div id = "time"> FM </div>
-  <div id = "task"> Bond with the red atom to form C40H56 </div>
+  <div id = "task"></div>
   <style>
     #wrd{
       position: fixed;
@@ -211,8 +211,10 @@ enemy2.ty = apple.y + 2;
         });
       var timer = document.getElementById('time')
       var currentT = 30
+      document.getElementById('task').innerHTML = "Bond with the red atom to form C40H56: time-: "+currentT;
    var counter = setInterval(function(){
       currentT--
+	   document.getElementById('task').innerHTML = "Bond with the red atom to form C40H56: time-: "+currentT;
         timer.innerHTML = currentT + 's';
         if(currentT === 0){
           game.stop()
